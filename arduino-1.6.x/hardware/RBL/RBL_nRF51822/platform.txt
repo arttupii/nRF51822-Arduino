@@ -2,7 +2,7 @@
 # RBL_nRF51822 compile variables
 # ------------------------- 
 
-name=RedBearLab Boards
+name=RedBearLab nRF51822 Boards
 
 # Compile tool path
 compiler.path={runtime.tools.arm-none-eabi-gcc.path}/bin/
@@ -57,8 +57,7 @@ recipe.cpp.o.pattern="{compiler.path}{compiler.cpp.cmd}" {compiler.cpp.flags} -m
 recipe.ar.pattern="{compiler.path}{compiler.ar.cmd}" {compiler.ar.flags} "{build.path}/{archive_file}" "{object_file}"
 
 ## Combine gc-sections, archives, and objects
-#recipe.c.combine.pattern="{compiler.path}{compiler.c.elf.cmd}" {compiler.c.elf.flags} -mcpu={build.mcu} {build.extra_flags} "-T{build.variant.path}/{build.ldscript}" {compiler.ldflags} "-Wl,-Map,{build.path}/{build.project_name}.map" -o "{build.path}/{build.project_name}.elf" "-L{build.path}" -lm -lgcc -Wl,--cref -Wl,--check-sections -Wl,--gc-sections -Wl,--entry=Reset_Handler -Wl,--unresolved-symbols=report-all -Wl,--warn-common -Wl,--warn-section-align -Wl,--warn-unresolved-symbols -Wl,--start-group "{build.path}/system_nrf51.c.o" {object_files} "{build.path}/startup_NRF51822.S.o" "{build.path}/{archive_file}" -Wl,--end-group
-recipe.c.combine.pattern="{compiler.path}{compiler.c.elf.cmd}" -mcpu={build.mcu} -mthumb -Wl,--gc-sections --specs=nano.specs -Wl,--wrap,main -Wl,-Map={build.path}/{build.project_name}.map,--cref "-T{build.variant.path}/{build.ldscript}" -o "{build.path}/{build.project_name}.elf" -Wl,--start-group "{build.path}/system_nrf51.c.o" {object_files} "{build.path}/startup_NRF51822.S.o" "{build.path}/{archive_file}" -Wl,--end-group -lstdc++ -lsupc++ -lm -lc -lgcc -lnosys
+recipe.c.combine.pattern="{compiler.path}{compiler.c.elf.cmd}" -mcpu={build.mcu} -mthumb -Wl,--gc-sections --specs=nano.specs -Wl,--wrap,main -Wl,-Map={build.path}/{build.project_name}.map,--cref "-T{build.variant.path}/{build.ldscript}" -o "{build.path}/{build.project_name}.elf" -Wl,--start-group "{build.path}/system_nrf51.c.o" {object_files} "{build.path}/startup_NRF51822.s.o" "{build.path}/{archive_file}" -Wl,--end-group -lstdc++ -lsupc++ -lm -lc -lgcc -lnosys
 
 ## Create bin
 recipe.objcopy.eep.pattern="{compiler.path}{compiler.elf2bin.cmd}" {compiler.elf2bin.flags} "{build.path}/{build.project_name}.elf" "{build.path}/{build.project_name}.bin"
@@ -75,19 +74,22 @@ recipe.output.save_file={build.project_name}_OTA.{build.variant}.hex
 recipe.size.pattern="{compiler.path}{compiler.size.cmd}" -A "{build.path}/{build.project_name}.elf"
 recipe.size.regex=\.text\s+([0-9]+).*
 
-# RBL_nRF51822 Uploader tools
+# nRF51822 Uploader tools
 # ----------------------
 
-tools.avrdude.path={runtime.tools.avrdude.path}
 
-tools.avrdude.cmd.path={runtime.tools.avrdude.path}/bin/avrdude
-tools.avrdude.config.path={runtime.hardware.path}/1.0.0/avrdude_conf/avrdude.conf
-tools.avrdude.cmd.path.linux={runtime.tools.avrdude.path}/bin/avrdude
-tools.avrdude.config.path.linux={runtime.hardware.path}/1.0.0/avrdude_conf/avrdude.conf
+# blackmagic probe upload
+tools.bmp_upload.cmd=arm-none-eabi-gdb
+#tools.bmp_upload.cmd.windows=bmp_upload.bat
+tools.bmp_upload.path={runtime.tools.arm-none-eabi-gcc.path}/bin/
+#tools.bmp_upload.path.windows={runtime.hardware.path}/tools/win
 
-tools.avrdude.upload.params.verbose=-v -V
-tools.avrdude.upload.params.quiet=-q -q
-tools.avrdude.upload.pattern="{cmd.path}" "-C{config.path}" {upload.verbose} -p{build.mcu} -c{upload.protocol} -P{serial.port} -b{upload.speed} -D "-Uflash:w:{build.path}/{build.project_name}.hex:i"
+tools.bmp_upload.upload.speed=230400
+tools.bmp_upload.upload.params.verbose=
+tools.bmp_upload.upload.params.quiet=-q --batch-silent
+tools.bmp_upload.upload.pattern="{path}{cmd}" -quiet -cd "{build.path}" -b {upload.speed} {upload.verbose} -ex "set debug remote 0" -ex "set target-async off" -ex "set remotetimeout 60" -ex "set mem inaccessible-by-default off" -ex "set confirm off" -ex "set height 0" -ex "target extended-remote \\.\{serial.port}" -ex "monitor swdp_scan" -ex "attach 1" -ex "file {build.project_name}.elf" -ex "load" -ex "tbreak main" -ex "run" -ex "echo \n\n\nUpload finished!" -ex "quit"
+
+
 
 
 

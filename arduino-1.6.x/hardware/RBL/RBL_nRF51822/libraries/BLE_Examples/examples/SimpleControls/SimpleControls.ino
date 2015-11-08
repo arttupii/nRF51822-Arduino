@@ -63,8 +63,8 @@ GattService         uartService(service1_uuid, uartChars, sizeof(uartChars) / si
 
 static void disconnectionCallBack(Gap::Handle_t handle, Gap::DisconnectionReason_t reason)
 {
-    Serial1.println("Disconnected!");
-    Serial1.println("Restarting the advertising process");
+    Serial.println("Disconnected!");
+    Serial.println("Restarting the advertising process");
     ble.startAdvertising();
 }
 
@@ -75,12 +75,12 @@ void writtenHandle(const GattWriteCallbackParams *Handler)
 
     if (Handler->handle == characteristic1.getValueAttribute().getHandle()) {
         ble.readCharacteristicValue(characteristic1.getValueAttribute().getHandle(), buf, &bytesRead);
-        Serial1.print("bytesRead: ");
-        Serial1.println(bytesRead, HEX);
+        Serial.print("bytesRead: ");
+        Serial.println(bytesRead, HEX);
         for(byte index=0; index<bytesRead; index++) {
-            Serial1.write(buf[index]);
+            Serial.write(buf[index]);
         }
-        Serial1.println("");
+        Serial.println("");
         //Process the data
         if (buf[0] == 0x01)  // Command is to control digital out pin
         {
@@ -153,7 +153,7 @@ void m_status_check_handle()
 void setup() {
     // put your setup code here, to run once
     
-    Serial1.begin(9600);
+    Serial.begin(9600);
 
     ble.init();
     ble.onDisconnection(disconnectionCallBack);
@@ -193,7 +193,7 @@ void setup() {
 
     ticker.attach_us(m_status_check_handle, 200000);
 
-    Serial1.println("Advertising Start!");
+    Serial.println("Advertising Start!");
 }
 
 void loop() {

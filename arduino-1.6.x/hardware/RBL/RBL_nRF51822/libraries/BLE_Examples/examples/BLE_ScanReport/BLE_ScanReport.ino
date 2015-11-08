@@ -23,44 +23,44 @@ uint32_t ble_advdata_decode(uint8_t type, uint8_t advdata_len, uint8_t *p_advdat
 
 void scanCallBack(const Gap::AdvertisementCallbackParams_t *params)
 {
-     Serial1.println("Scan Device CallBack Handle ");
+     Serial.println("Scan Device CallBack Handle ");
      
-     Serial1.print("  The peerAddr : ");
+     Serial.print("  The peerAddr : ");
      for(uint8_t index=0; index<6; index++)
      {
-         Serial1.print(params->peerAddr[index], HEX);
-         Serial1.print(" ");  
+         Serial.print(params->peerAddr[index], HEX);
+         Serial.print(" ");  
      }
-     Serial1.println(" ");  
+     Serial.println(" ");  
      
-     Serial1.print("  The Rssi : ");
-     Serial1.println(params->rssi, DEC);
+     Serial.print("  The Rssi : ");
+     Serial.println(params->rssi, DEC);
      
      uint8_t len;
      uint8_t adv_name[31];
      if( NRF_SUCCESS == ble_advdata_decode(BLE_GAP_AD_TYPE_SHORT_LOCAL_NAME, params->advertisingDataLen, (uint8_t *)params->advertisingData, &len, adv_name) )
      {
-         Serial1.print("  The length of Short Local Name : ");
-         Serial1.println(len, HEX);
-         Serial1.print("  The Short Local Name is        : ");
-         Serial1.println((const char *)adv_name);
+         Serial.print("  The length of Short Local Name : ");
+         Serial.println(len, HEX);
+         Serial.print("  The Short Local Name is        : ");
+         Serial.println((const char *)adv_name);
      }
      else if( NRF_SUCCESS == ble_advdata_decode(BLE_GAP_AD_TYPE_COMPLETE_LOCAL_NAME, params->advertisingDataLen, (uint8_t *)params->advertisingData, &len, adv_name) )
      {
-         Serial1.print("  The length of Complete Local Name : ");
-         Serial1.println(len, HEX);
-         Serial1.print("  The Complete Local Name is        : ");
-         Serial1.println((const char *)adv_name);
+         Serial.print("  The length of Complete Local Name : ");
+         Serial.println(len, HEX);
+         Serial.print("  The Complete Local Name is        : ");
+         Serial.println((const char *)adv_name);
      }
-     Serial1.println(" ");  
-     Serial1.println(" ");  
+     Serial.println(" ");  
+     Serial.println(" ");  
 }
  
 void setup() 
 {
     // put your setup code here, to run once:
-    Serial1.begin(9600);
-    Serial1.println("Start...");
+    Serial.begin(9600);
+    Serial.println("Start...");
     ble.init();
     //Note : take care of scheduler, prevent ram leak.See projectconfig.h
     ble.startScan(scanCallBack);

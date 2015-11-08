@@ -43,9 +43,9 @@
 void setup() 
 {
     // put your setup code here, to run once:
-    Serial1.begin(115200);
+    Serial.begin(115200);
     Wire.begin();
-    Serial1.println("master read...");
+    Serial.println("master read...");
 }
 
 void loop() 
@@ -56,7 +56,7 @@ void loop()
     while( Wire.available() > 0 )
     {
         uint8_t c = Wire.read();
-        Serial1.write(c);
+        Serial.write(c);
     }
     delay(1000);
 }

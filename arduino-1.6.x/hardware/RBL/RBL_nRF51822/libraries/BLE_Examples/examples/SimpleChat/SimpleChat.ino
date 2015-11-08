@@ -29,8 +29,8 @@ GattService         uartService(service1_uuid, uartChars, sizeof(uartChars) / si
 
 static void disconnectionCallBack(Gap::Handle_t handle, Gap::DisconnectionReason_t reason)
 {
-    Serial1.println("Disconnected!");
-    Serial1.println("Restarting the advertising process");
+    Serial.println("Disconnected!");
+    Serial.println("Restarting the advertising process");
     ble.startAdvertising();
 }
 
@@ -39,15 +39,15 @@ void writtenHandle(const GattWriteCallbackParams *Handler)
     uint8_t buf[TXRX_BUF_LEN];
     uint16_t bytesRead, index;
 
-    Serial1.println("onDataWritten : ");
+    Serial.println("onDataWritten : ");
     if (Handler->handle == characteristic1.getValueAttribute().getHandle()) {
         ble.readCharacteristicValue(characteristic1.getValueAttribute().getHandle(), buf, &bytesRead);
-        Serial1.print("bytesRead: ");
-        Serial1.println(bytesRead, HEX);
+        Serial.print("bytesRead: ");
+        Serial.println(bytesRead, HEX);
         for(byte index=0; index<bytesRead; index++) {
-            Serial1.write(buf[index]);
+            Serial.write(buf[index]);
         }
-        Serial1.println("");
+        Serial.println("");
     }
 }
 
@@ -59,20 +59,20 @@ void m_uart_rx_handle()
 }
 
 void uart_handle(uint32_t id, SerialIrq event)
-{   /* Serial1 rx IRQ */
+{   /* Serial rx IRQ */
     if(event == RxIrq) {   
         if (rx_state == 0) {  
             rx_state = 1;
             timeout.attach_us(m_uart_rx_handle, 100000);
             rx_buf_num=0;
         }
-        while(Serial1.available()) {
+        while(Serial.available()) {
             if(rx_buf_num < 20) {
-                rx_buf[rx_buf_num] = Serial1.read();
+                rx_buf[rx_buf_num] = Serial.read();
                 rx_buf_num++;
             }
             else {
-                Serial1.read();
+                Serial.read();
             }
         }   
     }
@@ -81,8 +81,8 @@ void uart_handle(uint32_t id, SerialIrq event)
 void setup() {
   
     // put your setup code here, to run once
-    Serial1.begin(9600);
-    Serial1.attach(uart_handle);
+    Serial.begin(9600);
+    Serial.attach(uart_handle);
 
     ble.init();
     ble.onDisconnection(disconnectionCallBack);
@@ -110,7 +110,7 @@ void setup() {
     // start advertising
     ble.startAdvertising();
 
-    Serial1.println("Advertising Start!");
+    Serial.println("Advertising Start!");
 }
 
 void loop() {

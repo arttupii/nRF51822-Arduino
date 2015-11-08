@@ -81,8 +81,8 @@ uint8_t rd_buf[7];
 void setup() {
 
     pinMode(D13, OUTPUT);
-    Serial1.begin(9600);  
-    Serial1.println("SPI Start ");
+    Serial.begin(9600);  
+    Serial.println("SPI Start ");
     
     pinMode(10, OUTPUT);
     digitalWrite(10, HIGH);
@@ -104,7 +104,7 @@ void loop() {
     memset(rd_buf, 0x00, 7);
     Flash_Buff_ReadBytes(0, rd_buf, 7);
     for(i=0; i<7; i++)
-      Serial1.write(rd_buf[i]);
+      Serial.write(rd_buf[i]);
 }
 
 

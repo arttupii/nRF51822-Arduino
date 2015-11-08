@@ -31,8 +31,8 @@ GattService         uartService(service1_uuid, uartChars, sizeof(uartChars) / si
 
 static void disconnectionCallBack(Gap::Handle_t handle, Gap::DisconnectionReason_t reason)
 {
-    Serial1.println("Disconnected ");
-    Serial1.println("Restart advertising ");
+    Serial.println("Disconnected ");
+    Serial.println("Restart advertising ");
     ble.startAdvertising();
 }
 
@@ -42,22 +42,22 @@ void writtenHandle(const GattWriteCallbackParams *Handler)
     uint8_t buf[TXRX_BUF_LEN];
     uint16_t bytesRead, index;
 
-    Serial1.println("Write Handle : ");
+    Serial.println("Write Handle : ");
     if (Handler->handle == characteristic1.getValueAttribute().getHandle())
     {
         ble.readCharacteristicValue(characteristic1.getValueAttribute().getHandle(), buf, &bytesRead);
         for(byte index=0; index<bytesRead; index++)
         {
-            Serial1.print(buf[index], HEX);
+            Serial.print(buf[index], HEX);
         }
-        Serial1.println(" ");
+        Serial.println(" ");
     }
 }
 
 // Task handle
 void m_1s_handle(void)
 {
-    Serial1.println("1s Loop ");
+    Serial.println("1s Loop ");
     value++;
     ble.updateCharacteristicValue(characteristic3.getValueAttribute().getHandle(), (uint8_t *)&value, 2);
 }
@@ -66,10 +66,10 @@ void setup() {
   
     ticker.attach(m_1s_handle, 1);
     // put your setup code here, to run once
-    Serial1.begin(9600);
+    Serial.begin(9600);
     pinMode(D13, OUTPUT);
     
-    Serial1.println("Start ");
+    Serial.println("Start ");
     ble.init();
     ble.onDisconnection(disconnectionCallBack);
     ble.onDataWritten(writtenHandle);
@@ -100,11 +100,11 @@ void setup() {
     // set adv_timeout, in seconds
     ble.setAdvertisingTimeout(0);
     // ger BLE stack version
-    Serial1.println( ble.getVersion() );
+    Serial.println( ble.getVersion() );
     // start advertising
     ble.startAdvertising();
 
-    Serial1.println("start advertising ");
+    Serial.println("start advertising ");
 }
 
 void loop() {

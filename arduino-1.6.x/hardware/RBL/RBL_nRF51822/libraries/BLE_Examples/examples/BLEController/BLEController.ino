@@ -75,8 +75,8 @@ GattService         uartService(service1_uuid, uartChars, sizeof(uartChars) / si
 
 static void disconnectionCallBack(Gap::Handle_t handle, Gap::DisconnectionReason_t reason)
 {
-    Serial1.println("Disconnected!");
-    Serial1.println("Restarting the advertising process");
+    Serial.println("Disconnected!");
+    Serial.println("Restarting the advertising process");
     ble.startAdvertising();
 }
 
@@ -249,14 +249,14 @@ void writtenHandle(const GattWriteCallbackParams *Handler)
 
     if (Handler->handle == characteristic1.getValueAttribute().getHandle()) {
         ble.readCharacteristicValue(characteristic1.getValueAttribute().getHandle(), buf, &bytesRead);
-        Serial1.print("bytesRead: ");
-        Serial1.println(bytesRead, HEX);
+        Serial.print("bytesRead: ");
+        Serial.println(bytesRead, HEX);
         //for(byte index=0; index<bytesRead; index++) {
-            Serial1.write(buf[0]);
-            Serial1.print(buf[1], DEC);
-            Serial1.print(buf[2], DEC);
+            Serial.write(buf[0]);
+            Serial.print(buf[1], DEC);
+            Serial.print(buf[2], DEC);
         //}
-        Serial1.println("");
+        Serial.println("");
         switch(buf[0])
         {
             case 'V': //query protocol version
@@ -391,14 +391,14 @@ void writtenHandle(const GattWriteCallbackParams *Handler)
             case 'Z':
             {
                 byte len = buf[1];
-                Serial1.println("->");
-                Serial1.print("Received: ");
-                Serial1.print(len);
-                Serial1.println(" byte(s)");
-                Serial1.print(" Hex: ");
+                Serial.println("->");
+                Serial.print("Received: ");
+                Serial.print(len);
+                Serial.println(" byte(s)");
+                Serial.print(" Hex: ");
                 for (int i=0;i<len;i++)
-                  Serial1.print(buf[i+2], HEX);
-                Serial1.println();
+                  Serial.print(buf[i+2], HEX);
+                Serial.println();
                 break;
             }  
         }
@@ -412,7 +412,7 @@ void writtenHandle(const GattWriteCallbackParams *Handler)
 void setup() {
     // put your setup code here, to run once
     
-    Serial1.begin(9600);
+    Serial.begin(9600);
 
     ble.init();
     ble.onDisconnection(disconnectionCallBack);
@@ -454,7 +454,7 @@ void setup() {
 
     ticker1.attach_us(m_status_check_handle, 100000);
 
-    Serial1.println("Advertising Start!");
+    Serial.println("Advertising Start!");
 }
 
 void loop() {

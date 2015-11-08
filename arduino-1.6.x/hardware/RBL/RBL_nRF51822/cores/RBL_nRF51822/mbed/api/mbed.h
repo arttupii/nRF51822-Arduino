@@ -41,7 +41,7 @@
 #include "AnalogIn.h"
 #include "AnalogOut.h"
 #include "PwmOut.h"
-#include "Serial.h"
+//#include "Serial.h" // Roger Clark. 20151108 . Conflicts with Arduino Serial instance
 #include "SPI.h"
 #include "SPISlave.h"
 #include "I2C.h"

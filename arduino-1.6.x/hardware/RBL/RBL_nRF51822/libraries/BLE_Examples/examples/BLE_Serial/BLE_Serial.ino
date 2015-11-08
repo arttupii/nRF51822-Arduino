@@ -40,7 +40,7 @@ void writtenHandle(const GattWriteCallbackParams *Handler)
     if (Handler->handle == characteristic1.getValueAttribute().getHandle()) {
         ble.readCharacteristicValue(characteristic1.getValueAttribute().getHandle(), buf, &bytesRead);
         for(byte index=0; index<bytesRead; index++) {
-            Serial1.write(buf[index]);
+            Serial.write(buf[index]);
         }
     }
 }
@@ -53,20 +53,20 @@ void m_uart_rx_handle()
 }
 
 void uart_handle(uint32_t id, SerialIrq event)
-{   /* Serial1 rx IRQ */
+{   /* Serial rx IRQ */
     if(event == RxIrq) {   
         if (rx_state == 0) {  
             rx_state = 1;
             timeout.attach_us(m_uart_rx_handle, 100000);
             rx_buf_num=0;
         }
-        while(Serial1.available()) {
+        while(Serial.available()) {
             if(rx_buf_num < 20) {
-                rx_buf[rx_buf_num] = Serial1.read();
+                rx_buf[rx_buf_num] = Serial.read();
                 rx_buf_num++;
             }
             else {
-                Serial1.read();
+                Serial.read();
             }
         }   
     }
@@ -75,8 +75,8 @@ void uart_handle(uint32_t id, SerialIrq event)
 void setup() {
   
     // put your setup code here, to run once
-    Serial1.begin(9600);
-    Serial1.attach(uart_handle);
+    Serial.begin(9600);
+    Serial.attach(uart_handle);
 
     ble.init();
     ble.onDisconnection(disconnectionCallBack);
