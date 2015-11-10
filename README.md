@@ -113,17 +113,22 @@ Limitations
 
     As Arduino does not have flow control in serial port implementation, the Serial port (Pin 0 and 1) is limited to 9600bps since the BLE stack require flow control in order to support higher speed. If you are not going to use BLE, you can use higher speed. 
 
-
+License
+=======
 
 Software core originally by RedBearLabs (see license below)
+
 Modifications by Roger Clark (me) 
+
 Further modifcations using some files from Sandeep Mistry
+
 GDB upload to Black Magic Probe by Rick Kimball
+
 Black Magic Probe firmware - porting to STM32 by Rick Kimball, with additions by Roger Clark (me)
 
 
-License
-=======
+Original Licence
+================
 
 Copyright (c) 2013-2015 RedBearLab
 
