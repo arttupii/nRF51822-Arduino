@@ -13,56 +13,45 @@ Requirement
 ===========
 
 1. nRF51822 deveopment board, here we will use RBL nRF51822 as an example.
-2. Arduino IDE version 1.6.5 (currently tested version).
+2. Arduino IDE version 1.6.5 (Do not use newer versions, they may not work).
 3. PC with one of the following OS:
     - Mac OSX 10.9 (Mavericks) / 10.10.4 (Yosemite) (current tested version).
     - Windows 7 and 8.x (current tested version).
     - Linux (current tested on Ubuntu 14.04).
 
-Note:
-If you have changed the USB interface firmware (MK20 chip) for some reasons, follow the instructions inside the **MK20** folder to restore it in order to use this add-on for Arduino IDE.
 
 
-Install nRF51822 Arduino Add-on
-===============================
+Installation of the core
+========================
 
-1. Get Arduino IDE version 1.6.5 from Arduino website and install it to your PC
+Clone this repo or download the zip (make sure you download the S130 branch)
 
-    http://arduino.cc/en/Main/Software
+Copy the RBL folder from  /arduino-1.6.x/hardware to the hardware folder inside your Arduino sketches folder
+If your sketches folder e.g. on Windows its My Documents/Arduino , does not contain a folder called   hardware ,
+make a new folder in your Arduino folder , called hardware, and copy the RBL folder into that folder.
 
-2. Start the IDE and from the Menu, click "Preference...", add the following line to "Additional Boards Manager URLs"
- 
-	https://redbearlab.github.io/arduino/package_redbearlab_index.json  
-  
-3. Install the "RedBearLab nRF51822 Boards" add-on via Boards Manager from the Menu: Tools -> Board -> Boards Manager ... 
+Additionally, in the Boards Manager, you need to install either the Due or Zero (SAM or SAMD) boards. 
+This is required for the ARM compiler.
 
 
 Install USB CDC Driver
 ======================
 
-Get this driver and install it if you are using Windows, so that you can use the USB CDC (Virtual COM Port).
+Black Magic Probe drivers are required by Windows.
 
-https://mbed.org/media/downloads/drivers/mbedWinSerial_16466.exe
-
-Note that you do not need any driver for OSX and Linux platforms.
+To Do.
 
 
-Flash with RBL Bootloader
+Flash with S130 V9 Softdevice
 =========================
 
-In the "bootloader" folder, there is a firmware (bootloader.hex) for the RBL nRF51822 board, it allows you to load firmware using Arduino IDE.
-
-To load the bootloader, connect the board to your PC using a micro USB cable, it will prompt a drive, drag the bootloader firmware to the drive.
-
-Note that the bootloader has OTA feature and you can follow the OTA session for instructions.
+To Do.
 
 
 How It Works
 ============
 
-The RBL nRF51822 board supports loading firmware using USB MSD (Mass Storage Device) method by default. However, to have better user experience as traditional coding, compiling and uploading firmware style using the Arduino IDE, we created a bootloader that makes use USB CDC method to upload firmware.
-
-The board is similar to Ardino Leonardo upload style, when you press "upload" in the Arduino, it will open the USB virtual serial port using 1200bps, the USB chip on the RBL nRF51822 board will reset the nRF51822 chip and it will enter the bootloader, the Arduino IDE will repoen the serial port at 115200bps and the bootloader will wait commands and data from your the Arduino IDE, and upgrade its application area in the flash.
+To Do.
 
 
 How to Play
@@ -70,13 +59,13 @@ How to Play
 
 1. Select board and serial port
 
-  Select the RBL nRF51822 board in the menu of Arduino IDE and serial port.
+  Select the Generic nRF51822 board in the menu of Arduino IDE and serial port.
 
-    Menu > Tools > Board > RBL nRF51822
+    Menu > Tools > Board > Generic nRF51822
     
-  If you are using our BLE Nano board,
+  Select the RAM size
 
-    Menu > Tools > Board > BLE Nano
+    Menu > Tools > Board > Generic nRF51822 > RAM Size
   
 2. Blink
 
@@ -115,18 +104,6 @@ How to Play
   This example allows you to exchange data with your central device (e.g. iPhone 5) and the data will be redirected to the UART.
 
 
-OTA
-===
-
-The bootloader allows you to load firmware Over-the-air. Everytime, if you reset the board by hitting the button on the board, the bootloader will broacast the OTA service via BLE for 5 sec waiting for a connection to be made. Otherwise, it will start the pre-loaded firmware.
-
-You can use the "export" feature from Arduino IDE 1.6.5 to get the firmware for OTA.
-
-Menu -> Sketch -> Export Compiled Binary
-
-Try the blink example, the firmware is named "Blink.cpp_OTA.BLE_Nano.hex".
-
-You can send this firmware to your phone, e.g. iPhone, using Air-Drop and use Nordic "nRF Toolbox" App to open it, then select file type "application" and select a device (you should see DFU_S130_V1.0 in the device list). Select it and click upload, the App will transfer the firmware to the board via BLE.
 
 
 Limitations
@@ -135,6 +112,14 @@ Limitations
 1. Serial Interface
 
     As Arduino does not have flow control in serial port implementation, the Serial port (Pin 0 and 1) is limited to 9600bps since the BLE stack require flow control in order to support higher speed. If you are not going to use BLE, you can use higher speed. 
+
+
+
+Software core originally by RedBearLabs (see license below)
+Modifications by Roger Clark (me) 
+Further modifcations using some files from Sandeep Mistry
+GDB upload to Black Magic Probe by Rick Kimball
+Black Magic Probe firmware - porting to STM32 by Rick Kimball, with additions by Roger Clark (me)
 
 
 License
