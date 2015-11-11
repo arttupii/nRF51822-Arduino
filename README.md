@@ -4,17 +4,17 @@ nRF51822-Arduino
 
 This branch is to provide BLE concurrent Central and Peripheral using Nordic SoftDevice S130.
 
-This is a work in progress which add support for Arduino IDE to allow compiling nRF51822 firmware.
-
 This add-on also provides BLE API for the nRF51822 SoC to act as BLE Central/Peripheral role designed for SoftDevice S130.
 
 
 Requirement
 ===========
 
-1. nRF51822 deveopment board, here we will use RBL nRF51822 as an example.
-2. Arduino IDE version 1.6.5 (Do not use newer versions, they may not work).
-3. PC with one of the following OS:
+1. A generic nRF51822 deveopment board (search "nRF51822 module wireless" on eBay etc). Note you only need the RF module not the full motherboard, if you are happy to wire the RF module to the "programmer" yourself
+2. A STM32F103C8 board ( to convert into a Black Magic Probe SWD programmer). (Search ebay for "stm32f103c8t board". The best boards are the long thin ones, not the rectangular ones)
+3. A USB to Serial converter (only used to program the Black Magic Probe onto the STM32 board) (Search eBay for "USB Serial module". Make sure you can see that it has a 3.3V output not just 5V)
+3. Arduino IDE version 1.6.5 (Do not use newer versions, they may not work).
+4. PC with one of the following OS:
     - Mac OSX 10.9 (Mavericks) / 10.10.4 (Yosemite) (current tested version).
     - Windows 7 and 8.x (current tested version).
     - Linux (current tested on Ubuntu 14.04).
@@ -32,6 +32,12 @@ make a new folder in your Arduino folder , called hardware, and copy the RBL fol
 
 Additionally, in the Boards Manager, you need to install either the Due or Zero (SAM or SAMD) boards. 
 This is required for the ARM compiler.
+
+
+Turning the STM32F103 board into a Black Magic Probe programmer
+===============================================================
+
+To Do.
 
 
 Install USB CDC Driver
