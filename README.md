@@ -45,7 +45,8 @@ Install USB CDC Driver
 
 Black Magic Probe drivers are required by Windows.
 
-To Do.
+They can be downloaded from Blacksphere website by following this link
+http://www.blacksphere.co.nz/downloads/bmp_driver_20130819.zip
 
 
 Flash with S130 V9 Softdevice
