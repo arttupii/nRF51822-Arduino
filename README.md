@@ -49,22 +49,95 @@ They can be downloaded from Blacksphere website by following this link
 http://www.blacksphere.co.nz/downloads/bmp_driver_20130819.zip
 
 
-Flash with S130 V9 Softdevice
+Flash with S130 Softdevice
 =========================
 
-To Do.
+
+Due to its license, I dont think I can bundle the S130 SoftDevice file in the repo :-(
+So you will need to download this from this page on Nordic's website
+
+http://www.nordicsemi.com/eng/Products/Bluetooth-Smart-Bluetooth-low-energy/nRF51822#Downloads
+
+under the section marked Softdevices
+
+CLick on the link to S130-SD
+
+This link may or may not work for you
+http://www.nordicsemi.com/eng/Products/Bluetooth-Smart-Bluetooth-low-energy/nRF51822#additional-terms-content-link-resource-download-link46579-16-57692621
+
+This will prompt you to accept something (though it doesnt appear to be agreement), and you should be able to download a zip file (s130_nrf51_1.0.0.zip)
+
+Unzip this file so that you can extract the file named s130_nrf51_1.0.0_softdevice.hex
+
+You now need to flash the softdevice onto your module. Note. You only need to do this once per board, as the softdevice should not get erased when you upload a new sketch.
+
+You you upload will vary depending on your programmer hardware
+
+If you are using the Black Magic Probe, you need to know which device or Windows COM port it is using. In Windows open the device manager and look in the Ports section for the device called Black Magic GDB Server.
+This will have a COM number e.g. COM5
+
+For the Black Magic Probe on Windows I've made a batch file to run gdb, however you still need to manually issue the
+following commands after GDB is running
+
+```
+set confirm off
+target extended-remote \\.\<THE COM PORT OF YOU BLACK MAGIC PROBE GDB SERER>
+monitor swdp_scan
+attach 1
+monitor erase_mass
+file <THE PATH TO THE S130 SOFTDEVICE HEX FILE>
+load
+quit
+```
+
+The overall result you will see, should look something like this
+
+```
+GNU gdb (GNU Tools for ARM Embedded Processors) 7.6.0.20140228-cvs
+Copyright (C) 2013 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.  Type "show copying"
+and "show warranty" for details.
+This GDB was configured as "--host=i686-w64-mingw32 --target=arm-none-eabi".
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>.
+(gdb) set confirm off
+(gdb) target extended-remote \\.\COM12
+Remote debugging using \\.\COM12
+(gdb) monitor swdp_scan
+Target voltage: Not Implemented!
+Available Targets:
+No. Att Driver
+ 1      Nordic nRF51 0x0084
+(gdb) attach 1
+Attaching to Remote target
+0xfffffffe in ?? ()
+(gdb) monitor erase_mass
+erase..
+(gdb) file s130_nrf51_1.0.0_softdevice.hex
+Reading symbols from C:\Users\rogerclark\Documents\Arduino\nRF51822-Arduino\install_softdevice\s130_nrf51_1.0.0_softdevice.hex...(no debugging symbols found)...done
+.
+(gdb) load
+Loading section .sec1, size 0x7c0 lma 0x0
+Loading section .sec2, size 0xf000 lma 0x1000
+Loading section .sec3, size 0xb4d8 lma 0x10000
+Start address 0x0, load size 109720
+Transfer rate: 22 KB/sec, 979 bytes/write.
+(gdb) quit
+Detaching from program: C:\Users\rogerclark\Documents\Arduino\nRF51822-Arduino\install_softdevice\s130_nrf51_1.0.0_softdevice.hex, Remote target
+```
+
+To do the same thing using JLink, please consult the JLink commander documentation.
 
 
-How It Works
-============
-
-To Do.
+Once the Softdevice has been successfully installed, you can fire up the Arduino IDE and get going
 
 
-How to Play
+How to 
 ===========
 
-1. Select board and serial port
+1. Select board and serial port of the Black Magic GDB Server
 
   Select the Generic nRF51822 board in the menu of Arduino IDE and serial port.
 
@@ -73,6 +146,13 @@ How to Play
   Select the RAM size
 
     Menu > Tools > Board > Generic nRF51822 > RAM Size
+    
+
+  Select the COM port of the Black Magic GDB Server
+  
+    Menu > Tools > Board > Generic nRF51822 > Port
+    (note this is the port of the GDB server not the same port as you will use to see the debug output)
+    
   
 2. Blink
 
@@ -118,7 +198,7 @@ Limitations
 
 1. Serial Interface
 
-    As Arduino does not have flow control in serial port implementation, the Serial port (Pin 0 and 1) is limited to 9600bps since the BLE stack require flow control in order to support higher speed. If you are not going to use BLE, you can use higher speed. 
+    As Arduino does not have flow control in serial port implementation, the Serial port is limited to 9600bps since the BLE stack require flow control in order to support higher speed. If you are not going to use BLE, you can use higher speed. 
 
 License
 =======
