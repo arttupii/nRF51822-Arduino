@@ -92,7 +92,9 @@ tools.bmp_upload.path={runtime.tools.arm-none-eabi-gcc.path}/bin/
 tools.bmp_upload.upload.speed=230400
 tools.bmp_upload.upload.params.verbose=
 tools.bmp_upload.upload.params.quiet=-q --batch-silent
-tools.bmp_upload.upload.pattern="{path}{cmd}" -quiet -cd "{build.path}" -b {upload.speed} {upload.verbose} -ex "set debug remote 0" -ex "set target-async off" -ex "set remotetimeout 60" -ex "set mem inaccessible-by-default off" -ex "set confirm off" -ex "set height 0" -ex "target extended-remote \\.\{serial.port}" -ex "monitor swdp_scan" -ex "attach 1" -ex "file {build.project_name}.elf" -ex "load" -ex "tbreak main" -ex "run" -ex "echo \n\n\nUpload finished!" -ex "quit"
+tools.bmp_upload.upload.pattern="{path}{cmd}" -quiet -cd "{build.path}" -b {upload.speed} {upload.verbose} -ex "set debug remote 0" -ex "set target-async off" -ex "set remotetimeout 60" -ex "set mem inaccessible-by-default off" -ex "set confirm off" -ex "set height 0" -ex "target extended-remote {serial.port}" -ex "monitor swdp_scan" -ex "attach 1" -ex "file {build.project_name}.elf" -ex "load" -ex "tbreak main" -ex "run" -ex "echo \n\n\nUpload finished!" -ex "quit"
+## windows needs a different path to the COM port from OSX and Linux
+tools.bmp_upload.upload.pattern.windows="{path}{cmd}" -quiet -cd "{build.path}" -b {upload.speed} {upload.verbose} -ex "set debug remote 0" -ex "set target-async off" -ex "set remotetimeout 60" -ex "set mem inaccessible-by-default off" -ex "set confirm off" -ex "set height 0" -ex "target extended-remote \\.\{serial.port}" -ex "monitor swdp_scan" -ex "attach 1" -ex "file {build.project_name}.elf" -ex "load" -ex "tbreak main" -ex "run" -ex "echo \n\n\nUpload finished!" -ex "quit"
 
 
 
