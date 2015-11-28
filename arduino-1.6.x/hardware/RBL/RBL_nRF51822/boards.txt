@@ -30,9 +30,9 @@ nRF51822.menu.upload_method.BMPMethod.upload.protocol=gdb_bmp
 nRF51822.menu.upload_method.BMPMethod.upload.tool=bmp_upload
 
 #To Do. Use JLink CLI to upload via J-Link
-#nRF51822.menu.upload_method.JLinkMethod=JLink
-#nRF51822.menu.upload_method.JLinkMethod.upload.protocol=jink_bmp
-#nRF51822.menu.upload_method.JLinkMethod.upload.tool=jlink_upload
+nRF51822.menu.upload_method.JLinkMethod=JLink
+nRF51822.menu.upload_method.JLinkMethod.upload.protocol=jink
+nRF51822.menu.upload_method.JLinkMethod.upload.tool=jlink_upload
 
 
 #Memory size
