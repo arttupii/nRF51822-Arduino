@@ -16,4 +16,5 @@ rem: create commander script file with the tmp bin that the Arduino IDE creates
 @echo q >> %tmpBinFilePath%.jlink
 
 rem: Upload using jlink commander via the Windows shortcut 
-"J-Link Commander.lnk" -device nRF51822_XXAC  -CommanderScript %tmpBinFilePath%.jlink
+rem: Use nRF51822_XXAB as the device type as this is the lowest common denominator and prevents JLink giving errors about RAM size
+"J-Link Commander.lnk" -device nRF51822_XXAB  -CommanderScript %tmpBinFilePath%.jlink

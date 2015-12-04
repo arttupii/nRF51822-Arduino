@@ -1,5 +1,6 @@
 menu.upload_method=Upload method
-menu.ram_size=RAM size
+menu.device_type=Device type
+#menu.ram_size=RAM size
 
 nRF51822.name=Generic nRF51822
 
@@ -10,6 +11,7 @@ nRF51822.upload.speed=115200
 nRF51822.upload.disable_flushing=true
 nRF51822.upload.use_1200bps_touch=true
 nRF51822.upload.wait_for_upload_port=false
+nRF51822.upload.device_type=nRF51822_XXAA
 
 nRF51822.build.mcu=cortex-m0
 nRF51822.build.f_cpu=16000000
@@ -29,17 +31,36 @@ nRF51822.menu.upload_method.BMPMethod=BMP (Black Magic Probe)
 nRF51822.menu.upload_method.BMPMethod.upload.protocol=gdb_bmp
 nRF51822.menu.upload_method.BMPMethod.upload.tool=bmp_upload
 
-#To Do. Use JLink CLI to upload via J-Link
+#Jlink. Note only version 5.02 is supported, as JLink commander operation was changed in version 5.1
 nRF51822.menu.upload_method.JLinkMethod=JLink
 nRF51822.menu.upload_method.JLinkMethod.upload.protocol=jink
 nRF51822.menu.upload_method.JLinkMethod.upload.tool=jlink_upload
 
+#device type
+nRF51822.menu.device_type.type_nrf51822qfaa=nRF51822 QF AA
+nRF51822.menu.device_type.type_nrf51822qfaa.build.ldscript=linker_scripts/gcc/RBL_nRF51822_16k.ld
+nRF51822.menu.device_type.type_nrf51822qfaa.upload.maximum_data_size=2560
+nRF51822.menu.device_type.type_nrf51822qfaa.upload.maximum_size=196608
+nRF51822.menu.device_type.type_nrf51822qfaa.upload.device_type=nRF51822_XXAA
+
+nRF51822.menu.device_type.type_nrf51822qfab=nRF51822 QF AB
+nRF51822.menu.device_type.type_nrf51822qfab.build.ldscript=linker_scripts/gcc/RBL_nRF51822_16k.ld
+nRF51822.menu.device_type.type_nrf51822qfab.upload.maximum_data_size=2560
+nRF51822.menu.device_type.type_nrf51822qfaa.upload.maximum_size=65536
+nRF51822.menu.device_type.type_nrf51822qfaa.upload.device_type=nRF51822_XXAB
+
+nRF51822.menu.device_type.type_nrf51822qfac=nRF51822 QF AC
+nRF51822.menu.device_type.type_nrf51822qfac.build.ldscript=linker_scripts/gcc/RBL_nRF51822_32k.ld
+nRF51822.menu.device_type.type_nrf51822qfac.upload.maximum_data_size=18994
+nRF51822.menu.device_type.type_nrf51822qfac.upload.maximum_size=196608
+nRF51822.menu.device_type.type_nrf51822qfaa.upload.device_type=nRF51822_XXAC
+
 
 #Memory size
-nRF51822.menu.ram_size.size_16k=16k
-nRF51822.menu.ram_size.size_16k.build.ldscript=linker_scripts/gcc/RBL_nRF51822_16k.ld
-nRF51822.menu.ram_size.size_16k.upload.maximum_data_size=2560
+#nRF51822.menu.ram_size.size_16k=16k
+#nRF51822.menu.ram_size.size_16k.build.ldscript=linker_scripts/gcc/RBL_nRF51822_16k.ld
+#nRF51822.menu.ram_size.size_16k.upload.maximum_data_size=2560
 
-nRF51822.menu.ram_size.size_32k=32k
-nRF51822.menu.ram_size.size_32k.build.ldscript=linker_scripts/gcc/RBL_nRF51822_32k.ld
-nRF51822.menu.ram_size.size_32k.upload.maximum_data_size=18994
+#nRF51822.menu.ram_size.size_32k=32k
+#nRF51822.menu.ram_size.size_32k.build.ldscript=linker_scripts/gcc/RBL_nRF51822_32k.ld
+#nRF51822.menu.ram_size.size_32k.upload.maximum_data_size=18994
